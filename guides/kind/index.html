@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="canonical" href="https://nolte.github.io/terraform-provider-harbor/guides/kind/">
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Local E2E Tests - Terraform Provider: Harbor</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="../../css/table.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Local E2E Tests";
+    var mkdocs_page_input_path = "guides/kind.md";
+    var mkdocs_page_url = "/terraform-provider-harbor/guides/kind/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Terraform Provider: Harbor</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../..">Getting Started</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Data Sources</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../data_sources/harbor_project/">harbor_project</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../data_sources/harbor_registry/">harbor_registry</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../data_sources/harbor_label/">harbor_label</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Resources</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../resources/harbor_config_system/">harbor_config_system</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../resources/harbor_configuration/">harbor_configuration</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../resources/harbor_project/">harbor_project</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../resources/harbor_registry/">harbor_registry</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../resources/harbor_robot_account/">harbor_robot_account</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../resources/harbor_tasks/">harbor_tasks</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../resources/harbor_label/">harbor_label</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Guides</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../development/">Development</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Local E2E Tests</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#kind-precondition">Kind Precondition</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#manuel">Manuel</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#install-the-harbor-chart">Install the Harbor Chart</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#using-make-goal">Using Make Goal</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#update-the-local-provider">Update the local Provider</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Terraform Provider: Harbor</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Guides &raquo;</li>
+        
+      
+    
+    <li>Local E2E Tests</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/nolte/terraform-provider-harbor/edit/master/docs/guides/kind.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="e2e-tests-with-kind">E2E Tests With Kind<a class="headerlink" href="#e2e-tests-with-kind" title="Permanent link">&para;</a></h1>
+<p>For Quick and Easy Local Development it is Recommendet to use a Vanilla Harbor installation.
+All releavant make goals are prefixed with <code>e2s_*</code>.</p>
+<h2 id="kind-precondition">Kind Precondition<a class="headerlink" href="#kind-precondition" title="Permanent link">&para;</a></h2>
+<h3 id="manuel">Manuel<a class="headerlink" href="#manuel" title="Permanent link">&para;</a></h3>
+<p>Starting the Kind Cluster with <a href="https://kind.sigs.k8s.io/docs/user/ingress/">Ingress Support</a>.</p>
+<pre><code class="bash">
+COPY
+cat &lt;&lt;EOF | kind create cluster --config=-
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: &quot;ingress-ready=true&quot;
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 443
+    protocol: TCP
+EOF
+</code></pre>
+
+<p>Using <a href="https://kind.sigs.k8s.io/docs/user/ingress/#ingress-nginx">Nginx</a> as Ingress Controller.</p>
+<pre><code class="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/ingress-nginx-2.2.0/deploy/static/provider/kind/deploy.yaml
+</code></pre>
+
+<p><strong>or for a existing Cluster</strong>
+kind export kubeconfig</p>
+<pre><code class="bash">kubectl create ns harbor
+</code></pre>
+
+<h4 id="install-the-harbor-chart">Install the Harbor Chart<a class="headerlink" href="#install-the-harbor-chart" title="Permanent link">&para;</a></h4>
+<p>Install the Helm Chart from <a href="https://github.com/goharbor/harbor-helm">goharbor/harbor-helm</a>.</p>
+<pre><code class="bash"># add helm chart repo (always done if you use the devcontainer)
+helm repo add harbor https://helm.goharbor.io
+
+export INGRESSDOMAIN=192-168-178-51.sslip.io
+
+helm upgrade -i tf-harbor-test harbor/harbor \
+    -n harbor \
+    --set expose.ingress.hosts.core=harbor.${INGRESSDOMAIN},expose.ingress.hosts.notary=notary.${INGRESSDOMAIN},externalURL=https://harbor.${INGRESSDOMAIN}
+
+
+# delete the chart
+helm delete -n harbor tf-harbor-test
+</code></pre>
+
+<h3 id="using-make-goal">Using Make Goal<a class="headerlink" href="#using-make-goal" title="Permanent link">&para;</a></h3>
+<pre><code class="sh"># create the kind cluster with ingress and install the harbor chart
+make e2e_prepare
+
+# delete the kind cluster
+make e2e_cleanup
+</code></pre>
+
+<h2 id="update-the-local-provider">Update the local Provider<a class="headerlink" href="#update-the-local-provider" title="Permanent link">&para;</a></h2>
+<pre><code class="bash">make install
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../development/" class="btn btn-neutral" title="Development"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/nolte/terraform-provider-harbor/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../development/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../js/table.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
